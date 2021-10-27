@@ -7,7 +7,9 @@ class Todo:
 
     def getRecordFromDB(self):
         db = DB()
+        db.connectDB()
         record = db.searchRecordInDB(self.recordID)
+        db.disconnectDB()
         return record
 
     def getRecordFromThirdParty(self):
@@ -20,12 +22,13 @@ class Todo:
             print("Record is not found in the third party")
             return [False, {}]
         db = DB()
+        db.connectDB()
         res = db.addRecordInDB(record[1])
+        db.disconnectDB()
         if not res:
             print("Failed to add the record in DB but record is available from third party")
         print("Successfully added record in DB")
         return [True,record[1]]
-
 
     def getTodo(self):
         print("Getting todos from the DB for id {}".format(self.recordID))
